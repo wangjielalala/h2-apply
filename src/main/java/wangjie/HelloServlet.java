@@ -8,14 +8,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * @author 黎志雄
- * 创建于2019-2-18
+ * @author wangjie
+ * @date 2019-11-28 18:43
+ * @since 1.0.0
  *
- * 企业级应用开发实训课程
- *
- * 本servlet访问网址：
- * http://localhost:8080/webapp-demo/hello
- * http://localhost:8080/webapp-demo/hello?user=黎志雄
+ * description:
  */
 @WebServlet(urlPatterns = {"/hello"})
 public class HelloServlet extends HttpServlet {
