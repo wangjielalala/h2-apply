@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+        metadata-complete="false"
+        version="3.1">
+    <!-- 注意这里的<web-app>的version="3.1"属性。有一些旧的版本是2.5，会导致jetty不能扫描注解来注册servlet。 -->
+
+    <display-name>Archetype Created Web Application</display-name>
+
+    <!--Start ////////////////////////////////////////////-->
+    <!-- web应用启动时启动H2数据库，默认嵌入式连接（只可本地JDBC连接，与Web应用同进程） -->
+    <listener>
+        <listener-class>org.h2.server.web.DbStarter</listener-class>
+    </listener>
+
+    <!-- 定义H2数据库的连接参数，用户与密码，并设置允许TCP远程连接。 -->
+    <context-param>
+        <param-name>db.url</param-name>
+        <!-- 如果数据库不存在，会创建 -->
+        <param-value>jdbc:h2:~/test</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db.user</param-name>
+        <param-value>wangjie</param-value>
+    </context-param>
+    <context-param>
+        <!-- 不能是空密码，否则启动时报错 -->
+        <param-name>db.password</param-name>
+        <param-value>wangjie</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db.tcpServer</param-name>
+        <param-value>-tcpAllowOthers</param-value>
+    </context-param>
+
+    <!-- H2控制台是一个独立的应用程序，包含自己的Web服务器，但它也可以用作servlet。 -->
+    <!-- 注意的是，h2数据库必须以服务器模式或混合模式启动 -->
+    <servlet>
+        <servlet-name>H2Console</servlet-name>
+        <servlet-class>org.h2.server.web.WebServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>H2Console</servlet-name>
+        <url-pattern>/console/*</url-pattern>
+    </servlet-mapping>
+    <!--End ////////////////////////////////////////////-->
+
+    <!-- @WebFilter没有元素来定义执行过滤器的顺序。我们需要在web.xml中定义顺序。 -->
+    <!-- 当在web.xml中定义时顺序时，@WebFilter中不要设置url-pattern,只需设置filterName。 -->
+<!--    <filter-mapping>-->
+<!--        <filter-name>CookiesFilter</filter-name>-->
+<!--        <url-pattern>/hello</url-pattern>-->
+<!--    </filter-mapping>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>ShowHeaderFilter</filter-name>-->
+<!--        <url-pattern>/hello</url-pattern>-->
+<!--    </filter-mapping>-->
+
+    <!-- 配置全局异常跳转页面，可以是jsp页面 -->
+    <!-- 可以根据http协议的错误码，设置多个error-page -->
+    <!--
+      在浏览器测试：
+        http://localhost:8080/webapp-demo/error
+    -->
+
+</web-app>
